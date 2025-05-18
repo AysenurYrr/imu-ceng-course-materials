@@ -1,0 +1,471 @@
+
+============================================= makrolar !! - 1 (Piramit oluşturma)
+include 'emu8086.inc'
+
+.model small
+
+x db 10 , 5
+
+.data
+
+.code
+
+main proc far  
+ 
+    mov cl , 10
+    mov ch , 0
+
+    L1: 
+    gotoxy ch , cl 
+    putc '*'
+    inc ch
+    dec cl   
+    
+    cmp cl , 0
+    jne L1
+    
+    mov cl , 0
+    mov ch , 10
+    
+    L2: 
+    gotoxy ch , cl 
+    putc '*'
+    inc cl
+    inc ch   
+    
+    cmp cl , 10
+    jne L2
+    
+    hlt
+     
+    
+main endp
+
+============================================= makrolar !! - 2 (Sayı kadar sembolden piramit oluşturma)
+
+include 'emu8086.inc'
+
+.model small
+
+.data    
+
+msg1 db 'bir sayi: $'
+msg2 db 0Ah , 0DH , 'bir sembol: $' 
+
+.code
+
+main proc far
+    mov ax , @data
+    mov ds , ax   
+
+    lea dx , msg1
+    mov ah , 09H
+    int 21H 
+    
+    mov ah , 01H
+    int 21H
+    
+    and al , 0FH    
+    mov bl , al 
+    
+    lea dx , msg2
+    mov ah , 09H
+    int 21H 
+    
+    mov ah , 01H
+    int 21H
+
+    mov cl , 2
+ 
+    mov dl , 0
+    L1: 
+         
+        mov ch , 0
+
+        L2: 
+ 
+        gotoxy ch , cl
+        putc al
+        
+        inc ch
+        cmp ch , dl
+        jle L2 
+    
+        inc cl 
+        inc dl
+        
+        cmp dl , bl
+        
+        
+        
+        jnz L1
+
+    HLT
+
+main endp
+================================================
+======================== 5 sayı çarp veya topla 
+include 'emu8086.inc'
+
+.model small
+
+.data
+x db 5 dup(0)  
+msg db  0AH , 0DH , 'bir islem seciniz: T/C: $'
+
+.code
+
+main proc far  
+
+    mov ax , @data
+    mov ds , ax 
+
+    mov cx , 5
+
+    L1:
+        mov ah , 01H
+        int 21H
+        
+        and al , 0FH
+        mov x[si] , al
+        inc si
+        loop L1
+
+   mov ah , 09H
+   lea dx , msg
+   int 21H
+   
+   mov ah , 01H
+   int 21H 
+   
+   cmp al , 'T'
+   je topla
+    
+   cmp al , 'C'
+   je carp
+   
+   devam: 
+   
+   call print_num_uns 
+
+   hlt 
+   
+   topla:
+    
+      mov cx , 5 
+      mov bl , 0H
+      mov si , 0
+      
+      L2:
+        add bl , x[si]
+        inc si
+        loop L2
+      
+      mov ax , 0
+      mov al , bl
+      
+      jmp devam
+        
+   carp:
+      mov cx , 5 
+      mov ax , 1H
+      mov si , 0
+      
+      L3: 
+        mov bh , 0 
+        mov bl , x[si]
+        mul bx    
+        inc si
+        loop L3
+        
+        
+      jmp devam
+
+main endp 
+
+define_print_num_uns
+
+==================== a b ve c girdilerinin histogramını hesaplamak
+.model small
+
+.data 
+
+    msg db "sadece a , b , c tuslarina basiniz (s sonlandirir):  $"    
+    
+    ha db 0
+    hb db 0
+    hc db 0 
+    
+.code
+  
+mov ax , @data
+mov ds ,ax   
+
+lea dx , msg
+mov ah , 09H
+int 21H
+   
+mov si , 0
+   
+   L0:
+   mov ah , 01H
+   int 21H 
+
+   cmp al , "a"
+   je A
+   cmp al , "b"
+   je B
+   cmp al , "c" 
+   je C
+   cmp al , "s" 
+   je S
+    
+   
+   inc si
+   cmp si , 0
+   jnz L0
+    
+   S: 
+ 
+   
+
+HLT 
+
+A: inc ha 
+   jmp L0 
+B: inc hb 
+   jmp L0
+C: inc hc 
+   jmp L0
+
+
+======================== string sayma (a,b,c)
+
+include 'emu8086.inc'
+
+.model small
+
+.data
+   msg db 0AH , 0DH , 'Toplam a sayisi: $'
+.code
+
+main proc far
+    mov ax , @data
+    mov ds , ax 
+    
+    mov si , 0H
+    
+    oku:
+        mov ah , 01H
+        int 21H
+        
+        cmp al , 'a'
+        je bu_b 
+        
+        cmp al , 's'
+        je son
+        
+      
+        
+        jmp oku 
+        
+    son: 
+    
+    
+    mov ah , 09H
+    lea dx , msg
+    int 21H
+     
+    mov ax , si
+    call print_num_uns 
+    
+    
+    hlt
+    
+    bu_a:
+        mov ah , 01H
+        int 21H
+        
+        cmp al , 'a'
+        je bu_b
+        jmp oku 
+        
+    bu_b:
+        mov ah , 01H
+        int 21H
+        
+        cmp al , 'b'
+        je bu_c
+        jmp oku 
+        
+    bu_c:
+        mov ah , 01H
+        int 21H
+        
+        cmp al , 'c'
+        je si_
+        jmp oku 
+        
+    si_: 
+        inc si  
+        jmp oku
+    
+        
+main endp 
+
+define_print_num_uns
+
+========== 5 sayı topla elemanları toplamdan çıkar
+.model small
+
+.data 
+
+    msg db "5 sayi giriniz:  $"
+    x db 5 dup(0) 
+    y db 5 dup(0) 
+    
+    lx equ 5
+ 
+    T db 0
+.code
+
+    
+mov ax , @data
+mov ds ,ax   
+
+lea dx , msg
+mov ah , 09H
+int 21H
+   
+   L0:
+   mov ah , 01H
+   int 21H 
+   
+   and al , 0FH
+   
+   mov x[si] , al 
+   
+   add T , al
+   
+   
+   inc si
+   cmp si , lx 
+   jnz L0
+
+mov si , 0 
+
+   L1:
+   mov al , x[si]
+   mov ah , T
+   sub ah , al 
+   
+   mov y[si] , ah
+   inc si
+   cmp si , lx 
+   jnz L1
+   
+
+HLT
+
+========== Ters dizi
+
+.model small
+
+.data 
+
+    msg db "5 uzunlugunda bir dizi giriniz:  $"
+    x db 5 dup(0) 
+    y db 5 dup(0) 
+    
+    lx equ 5
+ 
+    T db 0
+.code
+
+    
+mov ax , @data
+mov ds ,ax   
+
+lea dx , msg
+mov ah , 09H
+int 21H
+   
+   L0:
+   mov ah , 01H
+   int 21H 
+
+   mov x[si] , al 
+   
+   inc si
+   cmp si , lx 
+   jnz L0
+
+mov si , lx-1
+mov di , 0 
+
+   L1:
+   mov al , x[si]
+   mov y[di] , al 
+   
+   mov dl , al        	; bu kısım ekrana bastırmak için
+   mov ah , 02H			; bu kısım ekrana bastırmak için
+   int 21H				; bu kısım ekrana bastırmak için
+   
+   dec si
+   inc di
+   cmp di , lx 
+   jnz L1
+   
+
+HLT
+============ 5 Sayı tersleme ama sadece x üzerinden
+.model small
+
+.data 
+
+    msg db "5 uzunlugunda bir dizi giriniz:  $"
+    x db 5 dup(0) 
+    y db 5 dup(0) 
+    
+    lx equ 5
+ 
+    T db 0
+.code
+
+    
+mov ax , @data
+mov ds ,ax   
+
+lea dx , msg
+mov ah , 09H
+int 21H
+   
+   mov si , lx - 1
+   
+   L0:
+   mov ah , 01H
+   int 21H 
+
+   mov x[si] , al 
+   
+   dec si
+   cmp si , 0FFFFH 
+   jnz L0
+
+mov si , 0
+ 
+
+   L1:
+   mov dl , x[si]
+
+   mov ah , 02H
+   int 21H
+   
+   inc si
+   cmp si , lx 
+   jnz L1
+   
+
+HLT
+
+

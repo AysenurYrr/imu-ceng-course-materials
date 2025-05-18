@@ -1,0 +1,1 @@
+3D Obj dosyasını okuyup ekranda gösteren python kodunu başka bir kütüphane kullanmadan yazınız.
