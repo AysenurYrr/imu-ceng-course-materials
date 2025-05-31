@@ -1,0 +1,6 @@
+Algoritma analizi 2024 final
+
+1)Bir çubuğu parçalara bölüyordun her parçanın kazancı verilmişti maksimum kazancı sağlayan algoritmanın pseudo kodunu istemişti .
+2)Pozitif ve nagatif sayılardan oluşan dizide pozitif sayıların toplamını veren divide and conquer algoritmasının kodunu yazdırıp karmaşıklığını master teoremi veya recursion tree ile belirtmemizi  istedi.
+3)Soruda verilen bilgilere göre Knapsack tablosunu çizdirdi, algoritmanın  kodunu istedi ve zaman, yer karmaşıklığını belirtmemizi istedi. 
+4)Bir graf verdi onu adım adım prim algoritmasıyla MST sini çıkarmamızı istedi. 5)Complexity classes olarak bilinen P ,NP, NP Complete ve NP Hard sınıflarını kısaca açıklatıp birer örnek vermemizi istedi

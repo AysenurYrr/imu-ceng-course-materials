@@ -1,0 +1,40 @@
+Pseudo code
+
+FUNCTION min_edit_distance(s1, s2):
+    m = LENGTH(s1)
+    n = LENGTH(s2)
+
+    // Initialize the 2D array (dp) with dimensions (m+1) x (n+1)
+    dp = ARRAY(m + 1, n + 1)
+
+    // Base cases: transforming an empty string
+    FOR i FROM 0 TO m:
+        dp[i][0] = i
+    FOR j FROM 0 TO n:
+        dp[0][j] = j
+
+    // Fill the dp table using the recurrence relation
+    FOR i FROM 1 TO m:
+        FOR j FROM 1 TO n:
+            IF s1[i - 1] == s2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]  // Characters match, no cost
+            ELSE:
+                dp[i][j] = MIN(dp[i - 1][j] + 1,     // Deletion
+                               dp[i][j - 1] + 1,     // Insertion
+                               dp[i - 1][j - 1] + 2) // Substitution
+
+    // The value in dp[m][n] is the minimum edit distance
+    RETURN dp[m][n]
+
+---
+		e	x	e	c	u	t	i	o	n
+0	1	2	3	4	5	6	7	8	9
+i	1	2	3	4	5	6	7	7	8	9
+n	2	3	4	5	6	7	7	8	9	9
+t	3	4	5	6	6	6	7	8	9	10
+e	4	3	4	5	6	7	8	9	10	11
+n	5	4	5	6	7	8	9	10	11	12
+t	6	5	6	7	8	9	9	10	11	12
+i	7	6	7	8	9	10	11	10	11	12
+o	8	7	8	9	10	11	12	11	10	11
+n	9	8	9	10	11	12	13	12	11	10

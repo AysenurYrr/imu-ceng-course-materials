@@ -1,0 +1,251 @@
+.MODEL SMALL
+
+.DATA
+
+x  db 1 , 2 , 32 , 4 , 5 , 6 , 22 , 33 , 5
+
+lx equ $-x 
+
+ts db 10 
+
+T db 0
+
+
+.CODE 
+   
+mov ax , @data
+mov ds , ax
+
+mov bx , 0
+mov si , 0
+mov ax , 0
+mov di , lx 
+     
+      
+KAR: mov bl , x[si]
+     cmp bl , ts
+     jl TPL 
+     inc si 
+     dec di 
+     jnz KAR
+     
+
+SON:
+mov T , al
+
+HLT   
+
+
+TPL: add al , bl
+     inc si
+     dec di
+     jnz KAR 
+     
+     jmp SON
+	 
+=========================================
+.MODEL SMALL
+
+.DATA
+
+x  db 4 ,1 , 2 , 32   , 5 , 6 , 22 , 33 , 5
+
+lx equ $-x   
+
+ts db 4  
+
+K db 0
+B db 0
+
+.CODE 
+   
+mov ax , @data
+mov ds , ax
+
+mov ax , 0
+mov si , 0
+
+
+KAR: mov al , x[si] 
+     cmp al , ts
+     jl  VL
+     jge UL
+ARA: inc si
+     cmp si , lx
+     jnz KAR
+     
+HLT 
+
+
+Vl: add K , al
+ 
+    jmp ARA
+
+UL: add B , al
+ 
+    jmp ARA 
+=========================================
+
+.MODEL SMALL
+
+.DATA
+
+x  db 4 ,1 ,  2 , 32   , 5 , 6 , 22 , 33 , 5
+lx equ $-x 
+
+y  db 5 , 1 , 2 , 0   , 5 , 6 , 3 , 3 , 51 
+ly equ $-y
+
+A db 9
+B db 6
+
+LS db 0 
+BG db 0
+
+.CODE 
+   
+mov ax , @data
+mov ds , ax
+
+
+mov ax , 0
+mov bx , 0
+mov si , 0
+
+mov al , A
+mov ah , B
+
+cmp al , ah
+jl  KC
+jge BY
+
+ 
+ 
+     
+HLT 
+    
+
+KC:
+
+aDd bl , x[si]
+InC si
+cmp si , lx
+jnz KC  
+
+mov LS , bl
+
+hlt
+
+BY: 
+
+add bh , y[si]
+inc si
+cmp si , ly
+jnz BY  
+
+mov BG , BH
+
+hlt
+
+ 
+==============================================
+
+.MODEL SMALL
+
+.DATA
+
+x  db 4 ,1 ,  2 , 3 ,  32   , 5 , 6 , 22 , 33 , 5
+lx equ $-x 
+
+U db 0
+V db 0   
+
+.CODE 
+   
+mov ax , @data
+mov ds , ax
+
+mov ax , 0
+mov si , 0
+
+KAR: mov  al , x[si]   
+     test al , 01H   
+     jz  CF
+     jnz TK
+ARA:
+     inc si
+     cmp si , lx
+     jnz KAR
+ 
+HLT  
+
+CF: add U , al
+    jmp ARA
+    
+
+
+TK: add V , al
+    jmp ARA
+
+
+    
+=======================================================
+.MODEL SMALL
+
+.DATA
+ 
+x  db 1 , 5 ,09 , 8 , 7
+y  db 2 , 3 ,15 , 8 , 3  
+lx equ $-y  
+
+M db lx DUP(0) 
+ 
+.CODE 
+     
+mov ax , @data
+mov ds , ax  
+
+mov ax , 0
+mov si , 0 
+mov cx , lx
+
+KAR:
+
+    mov al , x[si]
+    mov ah , y[si]  
+    cmp al , ah
+    jl  KC
+    jge BY 
+ARA:
+    inc si
+    loop KAR
+ 
+HLT  
+
+KC:
+
+sub ah , al
+mov M[si] , ah
+
+jmp ARA
+
+BY:
+
+sub al , ah
+mov M[si] , al
+
+jmp ARA
+
+=======================================================
+
+ 
+
+    
+
+ 
+ 
+ 
+ 
+ 
+ 
+  

@@ -1,0 +1,111 @@
+================================================================  Matris çarpması
+.model small
+
+.data
+
+X db 1 ,2 ,4, 3   ,    6 , 5 , 4 , 7   ,    3 , 6 , 7 , 9   ,   3 , 2 , 4 , 5 
+
+w db 1, 1, 1, 1
+
+lx equ 4
+ly equ 4
+
+T db 0 dup(lx)
+
+.code
+
+main proc far
+    
+    mov ax , @data
+    mov ds , ax 
+    
+    
+  mov cx , lx
+   
+  
+  mov si , 0
+    
+  L1:
+  
+    push cx
+  
+    mov cx , ly
+    mov di , 0
+    mov ax , 0
+    mov dx , 0
+    
+    L2:
+        mov al , X[si]
+        mov dl , w[di]
+    
+        mul dl
+    
+        add dh , al
+    
+        inc si
+        inc di
+    
+    loop L2 
+    
+    mov T[bx] , dh
+    inc bx 
+    pop cx
+    
+  loop L1
+     
+    
+main endp
+================================== 
+.model small
+
+.data 
+
+    x  db 'MERHABA' 
+    lx equ $-x 
+    SN db 0AH , 0DH  
+
+.code
+ 
+mov ax, @data   
+mov ds, ax      
+
+L:  
+mov dl , x[si]  
+mov ah, 02h       
+int 21h
+inc si
+cmp si , lx
+jnz L   
+
+===========================
+include "emu8086.inc"
+
+.model small
+ 
+.data
+  
+
+.code
+ 
+main proc far: 
+    mov ax, @data
+    mov ds, ax 
+    
+    ;printn "Bu son ASM dersi"
+     
+    
+    ;printn "bir tusa basiniz..."
+    ;mov ah, 0
+    ;int 16h
+    
+    ;mov ax , 0H
+    ;dec ax
+    ;call print_num
+    
+main endp
+
+define_print_num_uns 
+define_print_num        
+
+
+; https://github.com/AhmadNaserTurnkeySolutions/emu8086/tree/master/examples      

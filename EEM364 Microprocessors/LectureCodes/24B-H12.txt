@@ -1,0 +1,179 @@
+============================= Dizi Sıralama
+.MODEL SMALL
+
+.DATA 
+
+x db 1,3,5,2,1,4,8,3,2,1 
+lx equ $-x-1
+
+.CODE
+
+main proc far 
+    
+mov ax , @data
+mov ds , ax
+
+mov cx , 0
+
+L0:
+mov ax , 0
+mov si , 0
+mov bl , 0 
+
+inc cl
+
+ 
+
+L:
+mov al , x[si]
+mov ah , x[si+1] 
+
+call SWP
+
+inc si
+cmp si , lx 
+jnz L
+
+cmp bl , 0
+jnz L0
+
+HLT
+    
+main endp
+
+
+SWP proc
+        
+    cmp al , ah
+    jg S
+
+D:   
+    
+    ret
+S:     
+    mov x[si]   , ah
+    mov x[si+1] , al
+    mov bl , 1 
+    inc ch
+    jmp D
+    
+    
+SWP endp
+
+============================= Carpma İşlemi
+.MODEL SMALL
+
+.DATA 
+
+A dw 15
+C equ  20
+
+Z dw 0
+
+.CODE
+
+main proc far 
+    
+mov ax , @data
+mov ds , ax
+
+mov ax , 0
+mov cx , C
+
+call CARP
+  
+  
+mov Z , ax
+HLT
+    
+main endp
+
+
+CARP proc
+    
+    L:
+    add ax , A
+    loop L
+        
+
+    ret
+ 
+CARP endp
+
+============================= Bölme İşlemi
+
+.MODEL SMALL
+
+.DATA 
+
+A equ 6
+C equ 3
+
+.CODE
+
+main proc far 
+    
+mov ax , @data
+mov ds , ax
+  
+mov ax , A
+
+call BOL
+
+HLT
+    
+main endp
+
+
+BOL proc
+    
+    mov bx , 0 
+    
+    L:
+    inc bx
+    sub ax , C
+    jge L: 
+    
+    add ax , C
+    dec bx
+    
+    ret
+
+    
+BOL endp
+=========================== Asal Sayı
+
+.MODEL SMALL
+
+.DATA 
+
+A  equ   35
+lx equ  A/2
+
+.CODE
+
+
+    
+mov ax , @data
+mov ds , ax
+  
+
+mov dl , 2
+
+L: 
+mov ax , A
+div dl
+
+
+cmp ah , 0 
+jz bitir
+
+inc dl
+cmp dl , lx
+jnz L
+ 
+bitir:
+  
+
+HLT
+    

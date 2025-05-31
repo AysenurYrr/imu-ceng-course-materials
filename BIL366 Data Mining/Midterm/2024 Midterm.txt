@@ -1,0 +1,7 @@
+1. 12 nokta sırasız verildi sınır değerlerine göre binning yapmamız istendi 
+2. Bir tablo verildi play tennis =evet için Naive bayes olasılık değeri istendi 
+3. Outlook decision tree humidity windy slayta çözümü öğrenciye bırakılan kısım soruldu entropi ile çözmemiz istendi 
+4. KNN sorusu k=3 için sınıfı bulup accuracy precision recall f-measure değerlerini bulunuz dedi
+5. Noisy data türleri ( missing value,typos,duplicate ,outlier)
+6. Supervised ve unsupervised learning nedir
+7. Overfitting underfitting ne demektir nasıl önlenir açıklayınız prunning (post ve pre prunning)yöntemlerini anlatacaksınız

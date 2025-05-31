@@ -1,0 +1,7 @@
+1)SVM de margin problemi nedir hard margin soft margini açıkla  ve şekil üzerinde hangi noktalar destek vektör noktalarıdır şeklinde bir soruydu.
+2)K means  noktalar verildi K=3 için iki iterasyon yapıp nihai grup bilgisini bulmamız istendi
+3)KNN Regresyon her biri x,y ve z den oluşan 4 nokta verildi 5.noktanın k=2 için z değerinin ne olabileceği soruldu
+4)SSE bulduran regresyon slope ve intercept değerleri verildi sizden SSE değerini bulmanız istendi 
+5)PCA algoritmasını açıklayınız  
+6)Dimentionality Reduction neden yapılır ve hangi algoritmalar kullanılır  
+7)Recommendation sorusu slayttaki milk diaper beer bread örneği gibi bir soru soruldu.
