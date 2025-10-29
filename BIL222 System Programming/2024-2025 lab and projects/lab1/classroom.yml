@@ -1,0 +1,30 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: run test_submission
+      id: run-test_submission
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: run test_submission
+        setup-command: sudo apt install bats -y
+        command: bats test_submission.sh
+        timeout: 1
+        max-score: 100
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        RUN-TEST_SUBMISSION_RESULTS: "${{steps.run-test_submission.outputs.result}}"
+      with:
+        runners: run-test_submission
